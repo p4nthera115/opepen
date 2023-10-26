@@ -23,6 +23,14 @@ const App = () => {
         sectionSize={1}
         cellColor="white"
       />
+      <Grid
+        infiniteGrid
+        rotation={[0, 0, Math.PI * -0.5]}
+        sectionColor="red"
+        sectionThickness={1.3}
+        sectionSize={1}
+        cellColor="white"
+      />
 
       <ambientLight intensity={1} />
 
