@@ -1,4 +1,13 @@
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, Grid } from "@react-three/drei";
+
+const Ball = () => {
+  return (
+    <mesh position={[-0.5, 1.5, 0]}>
+      <sphereGeometry args={[0.5, 32, 32]} />
+      <meshStandardMaterial color="white" wireframe />
+    </mesh>
+  );
+};
 
 const App = () => {
   return (
@@ -6,14 +15,18 @@ const App = () => {
       <color args={["#111"]} attach="background" />
 
       <OrbitControls makeDefault />
+      <Grid
+        infiniteGrid
+        rotation={[Math.PI * -0.5, 0, 0]}
+        sectionColor="red"
+        sectionThickness={1.3}
+        sectionSize={1}
+        cellColor="white"
+      />
 
-      <directionalLight position={[1, 2, 3]} intensity={0.1} />
-      <ambientLight intensity={0.1} />
+      <ambientLight intensity={1} />
 
-      <mesh scale={4} rotation-x={Math.PI * -0.5} position-y={-1}>
-        <planeGeometry />
-        <meshStandardMaterial color="white" />
-      </mesh>
+      <Ball />
     </>
   );
 };
