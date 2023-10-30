@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/three": "^0.157.2",
     "framer-motion-3d": "^10.16.4",
+    "gltfjsx": "^6.2.14",
     "r3f-perf": "^7.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

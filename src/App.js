@@ -2,9 +2,17 @@ import { OrbitControls, Grid } from "@react-three/drei";
 
 const Ball = () => {
   return (
-    <mesh position={[-0.5, 1.5, 0]}>
+    <mesh position={[0.5, 1.5, 0.5]}>
       <sphereGeometry args={[0.5, 32, 32]} />
-      <meshStandardMaterial color="white" wireframe />
+      <meshStandardMaterial color="white" />
+    </mesh>
+  );
+};
+const Ring = () => {
+  return (
+    <mesh position={[-0.5, 1.5, 0]}>
+      <torusGeometry args={[0.5, 0.03, 5, 32]} />
+      <meshStandardMaterial color="skyblue" />
     </mesh>
   );
 };
@@ -35,6 +43,7 @@ const App = () => {
       <ambientLight intensity={1} />
 
       <Ball />
+      <Ring />
     </>
   );
 };
