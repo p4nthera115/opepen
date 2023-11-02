@@ -1,4 +1,6 @@
-import { OrbitControls, Grid } from "@react-three/drei";
+import { useRef } from "react";
+import { OrbitControls } from "@react-three/drei";
+import { Model } from "./Opepen1";
 
 const Ball = () => {
   return (
@@ -8,42 +10,29 @@ const Ball = () => {
     </mesh>
   );
 };
+
 const Ring = () => {
   return (
-    <mesh position={[-0.5, 1.5, 0]}>
-      <torusGeometry args={[0.5, 0.03, 5, 32]} />
-      <meshStandardMaterial color="skyblue" />
+    <mesh position={[-1, 5, -2]} scale={2}>
+      <torusGeometry args={[0.5, 0.04, 5, 32]} />
+      <meshStandardMaterial color="#bdffff" />
     </mesh>
   );
 };
 
 const App = () => {
+  const ref = useRef();
   return (
     <>
       <color args={["#111"]} attach="background" />
 
       <OrbitControls makeDefault />
-      <Grid
-        infiniteGrid
-        rotation={[Math.PI * -0.5, 0, 0]}
-        sectionColor="red"
-        sectionThickness={1.3}
-        sectionSize={1}
-        cellColor="white"
-      />
-      <Grid
-        infiniteGrid
-        rotation={[0, 0, Math.PI * -0.5]}
-        sectionColor="red"
-        sectionThickness={1.3}
-        sectionSize={1}
-        cellColor="white"
-      />
 
-      <ambientLight intensity={1} />
+      <ambientLight intensity={0.3} />
 
-      <Ball />
-      <Ring />
+      {/* <Ball /> */}
+      {/* <Ring /> */}
+      <Model />
     </>
   );
 };
