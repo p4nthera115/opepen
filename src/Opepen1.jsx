@@ -6,11 +6,13 @@ Command: npx gltfjsx@6.2.14 opepen1.glb
 import React, { useRef, useState, useEffect } from "react";
 import { useGLTF } from "@react-three/drei";
 import { EffectComposer, SelectiveBloom } from "@react-three/postprocessing";
+import { motion } from "framer-motion-3d";
 
 export function Model(props) {
   const { nodes, materials } = useGLTF("../models/opepen2.glb");
 
   const [ringColor, setRingColor] = useState();
+  const [ballAnim, setBallAnim] = useState(false);
 
   const ref = useRef();
   const ball = useRef();
@@ -19,12 +21,17 @@ export function Model(props) {
 
   useEffect(() => {
     if (ball)
-      if (ball.current.position.z === 1) {
-        setRingColor("#bdfff");
+      if (ballAnim) {
+        setTimeout(() => {
+          setRingColor("#bdffff");
+        }, [800]);
       } else {
         setRingColor("#777");
       }
-  }, [ball.current, ringColor]);
+  }, [ball.current, ringColor, ballAnim]);
+
+  console.log(ballAnim);
+  console.log(ringColor);
 
   return (
     <group ref={ref} {...props} dispose={null} rotation={[0, Math.PI * 1.5, 0]}>
@@ -33,6 +40,7 @@ export function Model(props) {
         material={materials.Material}
         position={[0, 4, 0]}
         receiveShadow
+        onClick={() => setBallAnim(!ballAnim)}
       />
       <mesh
         ref={ring}
@@ -56,16 +64,23 @@ export function Model(props) {
         position={[-1, 0.5, 0]}
         scale={[2, 1, 4]}
       />
-      <mesh
+      <motion.mesh
         ref={ball}
         geometry={nodes.Sphere.geometry}
         material={materials["Material.004"]}
-        position={[-1, 5, 1]}
+        position={[-1, 5, -1]}
         castShadow
+        animate={{ z: ballAnim ? 1 : -1 }}
+        transition={{
+          ease: "easeInOut",
+          duration: 0.8,
+        }}
       />
 
       <directionalLight ref={dLight} castShadow />
-      <pointLight position={[-2, 5, 1]} intensity={3} color={"#BDFFFF"} />
+      {ringColor === "#bdffff" && (
+        <pointLight position={[-2, 5, 1]} intensity={3} color={"#BDFFFF"} />
+      )}
 
       <EffectComposer>
         <SelectiveBloom lights={[dLight]} selection={[ring]} />
