@@ -10,15 +10,15 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Canvas
     camera={{
-      fov: 45,
+      fov: 15,
       near: 0.1,
       far: 2000,
-      position: [0, 0, -10],
+      position: [0, 0, -30],
     }}
   >
     {/* <Perf position="top-left" /> */}
 
-    <Grid
+    {/* <Grid
       infiniteGrid
       rotation={[Math.PI * -0.5, 0, 0]}
       sectionColor="red"
@@ -33,7 +33,7 @@ root.render(
       sectionThickness={1.3}
       sectionSize={1}
       cellColor="white"
-    />
+    /> */}
 
     <App />
   </Canvas>

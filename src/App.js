@@ -28,7 +28,7 @@ const App = () => {
 
       <OrbitControls makeDefault />
 
-      <ambientLight intensity={0.3} />
+      <ambientLight intensity={0.1} />
 
       {/* <Ball /> */}
       {/* <Ring /> */}

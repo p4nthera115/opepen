@@ -13,6 +13,7 @@ export function Model(props) {
 
   const [ringColor, setRingColor] = useState();
   const [ballAnim, setBallAnim] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
   const ref = useRef();
   const ball = useRef();
@@ -20,28 +21,44 @@ export function Model(props) {
   const dLight = useRef();
 
   useEffect(() => {
+    const link = document.querySelector('link[rel="icon"]');
+
     if (ball)
       if (ballAnim) {
         setTimeout(() => {
-          setRingColor("#bdffff");
-        }, [800]);
+          setRingColor("#fff");
+          link.setAttribute("href", "opepen-on.svg");
+        }, [900]);
       } else {
-        setRingColor("#777");
+        setRingColor("#333");
+        link.setAttribute("href", "opepen-off.svg");
       }
-  }, [ball.current, ringColor, ballAnim]);
+
+    document.body.style.cursor = hovered ? "pointer" : "auto";
+  }, [ball.current, ringColor, ballAnim, hovered]);
 
   console.log(ballAnim);
   console.log(ringColor);
 
   return (
-    <group ref={ref} {...props} dispose={null} rotation={[0, Math.PI * 1.5, 0]}>
+    <group
+      ref={ref}
+      {...props}
+      dispose={null}
+      rotation={[0, Math.PI * 1.5, 0]}
+      position={[0, -3, 1]}
+    >
+      {/* TOP */}
       <mesh
         geometry={nodes.top_.geometry}
         material={materials.Material}
         position={[0, 4, 0]}
         receiveShadow
         onClick={() => setBallAnim(!ballAnim)}
+        onPointerOver={() => setHovered(true)}
+        onPointerOut={() => setHovered(false)}
       />
+      {/* RING LIGHT */}
       <mesh
         ref={ring}
         geometry={nodes.ring_light.geometry}
@@ -51,6 +68,7 @@ export function Model(props) {
         scale={[1, 0.08, 1]}
         material-color={ringColor}
       />
+      {/* CORNER */}
       <mesh
         geometry={nodes.Corner.geometry}
         material={materials["Material.003"]}
@@ -58,12 +76,14 @@ export function Model(props) {
         rotation={[0, 0, -Math.PI / 2]}
         scale={[1, 0.504, 1]}
       />
+      {/* BOTTOM */}
       <mesh
         geometry={nodes.bottom.geometry}
         material={materials["Material.002"]}
         position={[-1, 0.5, 0]}
         scale={[2, 1, 4]}
       />
+      {/* BALL */}
       <motion.mesh
         ref={ball}
         geometry={nodes.Sphere.geometry}
@@ -77,14 +97,21 @@ export function Model(props) {
         }}
       />
 
-      <directionalLight ref={dLight} castShadow />
-      {ringColor === "#bdffff" && (
-        <pointLight position={[-2, 5, 1]} intensity={3} color={"#BDFFFF"} />
+      <directionalLight ref={dLight} castShadow intensity={0} />
+      {ringColor === "#fff" && (
+        <pointLight
+          // rotation={[Math.PI * 0.25, 0, 0]}
+          position={[-2, 5, 1]}
+          intensity={3}
+          color={"#FFF"}
+        />
       )}
 
-      <EffectComposer>
-        <SelectiveBloom lights={[dLight]} selection={[ring]} />
-      </EffectComposer>
+      {ringColor && (
+        <EffectComposer>
+          <SelectiveBloom lights={[dLight]} selection={[ring]} />
+        </EffectComposer>
+      )}
     </group>
   );
 }
